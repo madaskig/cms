@@ -1,26 +1,9 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import Button from "~/components/Button";
 import CheckIcon from "~/components/icons/Check";
 import CrossIcon from "~/components/icons/Cross";
 
-function IconButton({
-  icon,
-  className,
-  ...buttonProps
-}: {
-  icon: React.ReactNode;
-  className?: string;
-} & DetailedHTMLProps<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
->) {
-  return (
-    <button className={`relative p-1 rounded-md ${className}`} {...buttonProps}>
-      <div className="relative size-3.5">{icon}</div>
-    </button>
-  );
-}
-
-export default function NewPropertyForm({
+export default function NewKVForm({
   onValidate,
   onCancel,
 }: {
@@ -50,13 +33,15 @@ export default function NewPropertyForm({
           ></input>
         </div>
         <div className="relative w-full flex flex-row justify-end items-center gap-1">
-          <IconButton
+          <Button
             className="bg-red-500 text-white"
+            variant="small"
             icon={<CrossIcon />}
             onClick={onCancel}
           />
-          <IconButton
+          <Button
             className="bg-green-500 text-white"
+            variant="small"
             icon={<CheckIcon />}
             type="submit"
           />

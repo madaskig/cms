@@ -2,11 +2,11 @@
 
 import { useRef, useState } from "react";
 import AddButton from "~/components/AddButton";
-import NewPropertyForm from "./NewPropertyForm";
+import NewKVForm from "./NewKVForm";
 import useAnimatedListInsert from "~/helpers/hooks/useAnimatedListInsert";
 import type { Property } from "~/types";
 
-export default function KVPropertyEditor({ list }: { list: Property[] }) {
+export default function KVEditor({ list }: { list: Property[] }) {
   const [isPopupDisplayed, setIsPopupDisplayed] = useState(false);
 
   const insertedElementRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,7 @@ export default function KVPropertyEditor({ list }: { list: Property[] }) {
           className={`absolute ${isPopupDisplayed ? "opacity-100 pointer-events-auto transition-opacity duration-500 delay-200" : "opacity-0 pointer-events-none"} w-full left-0 right-0 bottom-full`}
           ref={insertedElementRef}
         >
-          <NewPropertyForm
+          <NewKVForm
             onCancel={() => {
               setIsPopupDisplayed(false);
             }}

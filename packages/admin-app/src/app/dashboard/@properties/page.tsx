@@ -1,5 +1,6 @@
 import { PropertyType, type PropertyGroup } from "~/types";
-import KVPropertyEditor from "./KVPropertyEditor";
+import KVEditor from "./_kv";
+import Images from "./_images";
 
 function PropertyGroupList({
   propertyGroup,
@@ -10,10 +11,11 @@ function PropertyGroupList({
     case PropertyType.numeric:
     case PropertyType.text:
     case PropertyType.structuredText:
-    case PropertyType.image:
       return null;
+    case PropertyType.image:
+      return <Images list={propertyGroup.properties} />;
     case PropertyType.kv:
-      return <KVPropertyEditor list={propertyGroup.properties} />;
+      return <KVEditor list={propertyGroup.properties} />;
     default:
       return null;
   }
@@ -25,7 +27,7 @@ function PropertyGroupEditor({
   propertyGroup: PropertyGroup;
 }) {
   return (
-    <div className="relative flex flex-col gap-4">
+    <div className="relative flex flex-col gap-2">
       <h3 className="w-full text-left text-xs px-1 uppercase font-bold">
         {propertyGroup.label}
       </h3>
@@ -48,7 +50,32 @@ export default function PropertiesEditor() {
       id: "group2",
       label: "Images",
       type: PropertyType.image,
-      properties: [],
+      properties: [
+        // {
+        //   key: "img1",
+        //   value: "https://picsum.photos/id/28/800/450",
+        //   type: PropertyType.image,
+        //   label: "Image 1",
+        // },
+        // {
+        //   key: "img2",
+        //   value: "https://picsum.photos/id/18/800/450",
+        //   type: PropertyType.image,
+        //   label: "Image 2",
+        // },
+        // {
+        //   key: "img3",
+        //   value: "https://picsum.photos/id/29/800/450",
+        //   type: PropertyType.image,
+        //   label: "Image 3",
+        // },
+        // {
+        //   key: "img4",
+        //   value: "https://picsum.photos/id/49/800/450",
+        //   type: PropertyType.image,
+        //   label: "Image 4",
+        // },
+      ],
     },
     {
       id: "group3",

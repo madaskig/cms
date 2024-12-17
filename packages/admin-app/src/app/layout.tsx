@@ -4,8 +4,10 @@ export const runtime = "edge";
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="bg-white text-slate-900">
