@@ -1,10 +1,10 @@
 export default function Layout({
-  body,
+  children,
   tags,
   properties,
   modal,
 }: Readonly<{
-  body: React.ReactNode;
+  children: React.ReactNode;
   tags: React.ReactNode;
   properties: React.ReactNode;
   modal: React.ReactNode;
@@ -18,7 +18,7 @@ export default function Layout({
         <div className="relative flex-none w-[300px] h-full">{properties}</div>
         <div className="relative flex-1 min-h-0 h-full px-[2vw] flex flex-col items-center">
           <section className="relative bg-white rounded-lg w-full h-full container">
-            {body}
+            {children}
           </section>
         </div>
         <div className="relative flex-none w-[200px] h-full">{tags}</div>

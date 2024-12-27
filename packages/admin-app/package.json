@@ -13,13 +13,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "init": "^0.1.2",
+    "@aws-sdk/client-s3": "3.717.0",
+    "es-toolkit": "1.30.1",
     "next": "15.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-dropzone": "14.3.5",
     "react-quill-new": "3.3.3",
-    "server-only": "0.0.1"
+    "server-only": "0.0.1",
+    "webp-converter-browser": "1.0.4"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "1.13.7",

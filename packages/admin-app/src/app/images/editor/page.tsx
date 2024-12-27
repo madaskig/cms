@@ -1,3 +1,11 @@
+import ImageUploader from "~/components/ImageUploader";
+
 export default function Page() {
-  return <div className="p-6 bg-red-600"></div>;
+  return (
+    <div className="fixed w-[100vw] h-[100vh] md:p-[4vw] flex justify-center items-center">
+      <div className="relative size-full md:max-w-[720px] md:h-2/3 p-12 bg-white rounded-md shadow-md shadow-gray-200">
+        <ImageUploader />
+      </div>
+    </div>
+  );
 }

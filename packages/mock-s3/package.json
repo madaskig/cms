@@ -1,0 +1,23 @@
+{
+  "name": "@madaskig/mock-s3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsx ./index.ts",
+    "s3rver": "s3rver"
+  },
+  "dependencies": {
+    "s3rver": "3.7.1"
+  },
+  "devDependencies": {
+    "@types/s3rver": "3.7.4",
+    "@typescript-eslint/eslint-plugin": "8.18.2",
+    "@typescript-eslint/parser": "8.18.2",
+    "eslint": "9.17.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.4.2",
+    "tsx": "4.17.0",
+    "typescript": "5.7.2"
+  }
+}

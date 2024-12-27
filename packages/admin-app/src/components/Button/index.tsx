@@ -17,6 +17,7 @@ export default function Button({
   label,
   variant = "default",
   className,
+  disabled,
   ...buttonProps
 }: {
   icon?: React.ReactNode;
@@ -29,7 +30,8 @@ export default function Button({
 >) {
   return (
     <button
-      className={`relative p-1 rounded-md flex ${className}`}
+      className={`relative p-1 rounded-md flex ${className} ${disabled ? "opacity-50" : ""}`}
+      disabled={disabled}
       {...buttonProps}
     >
       {icon ? (

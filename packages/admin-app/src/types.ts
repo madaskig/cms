@@ -30,3 +30,11 @@ export type TagsGroup = {
   label: string;
   tags: Tag[];
 };
+
+export type MIMEType =
+  | "image/jpeg"
+  | "image/png"
+  | "image/webp"
+  | "image/gif"
+  | "image/svg+xml"
+  | "image/tiff";
