@@ -21,12 +21,25 @@ export async function POST(request: NextRequest) {
     ? rawFilename
     : `${rawFilename}.${fileExtension}`;
 
-  const r = await upload({
-    bucketName: "assets",
-    key: filename,
-    data: Readable.fromWeb(request.body as ReadableStream),
-    contentType,
-  });
+  try {
+    await upload({
+      bucketName: "assets",
+      key: filename,
+      data: Readable.fromWeb(request.body as ReadableStream),
+      contentType,
+    });
 
-  return new Response("ok");
+    return new Response(JSON.stringify({ status: "ok" }), {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ status: "error" }), {
+      status: 403,
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+  }
 }

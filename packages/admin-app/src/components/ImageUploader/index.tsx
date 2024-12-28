@@ -5,13 +5,17 @@ import { useDropzone } from "react-dropzone";
 import validateImage from "~/helpers/utils/validateImage";
 import getFileAsDataUrl from "~/helpers/utils/getFileAsDataUrl";
 import Actions from "./Actions";
+import ExclamationIcon from "../icons/Exclamation";
+import Spinner from "../Spinner";
 
 export default function ImageUploader({
   onCancel,
   onSubmit,
+  onSuccess,
 }: {
   onCancel?: () => void;
-  onSubmit?: (file?: File) => void;
+  onSubmit?: (o: { file: File; filename?: string }) => void;
+  onSuccess?: () => void;
 }) {
   const [status, setStatus] = useState<
     "idle" | "error" | "success" | "ready" | "pending"
@@ -20,16 +24,22 @@ export default function ImageUploader({
 
   const [previewImgDataURL, setPreviewImgDataURL] = useState<string | null>();
   const [droppedFile, setDroppedFile] = useState<File | null>();
+  const [filename, setFileName] = useState<string>();
 
   const fileReader = useRef<FileReader>();
 
   const reset = () => {
     setErrorMsg(null);
     setPreviewImgDataURL(null);
+    setDroppedFile(null);
     setStatus("idle");
   };
 
   const handleDrop = useCallback(async (droppedFiles: File[]) => {
+    if (status === "pending") {
+      return;
+    }
+
     setErrorMsg(null);
     setDroppedFile(null);
 
@@ -69,13 +79,27 @@ export default function ImageUploader({
     };
   }, []);
 
+  useEffect(() => {
+    setFileName(droppedFile?.name || "");
+  }, [droppedFile]);
+
   return (
-    <div className="relative size-full">
+    <div className="relative size-full flex flex-col px-12">
+      <div className="flex-none h-12 flex items-center gap-1 text-red-500">
+        {errorMsg ? (
+          <>
+            <div className="relative size-5">
+              <ExclamationIcon />
+            </div>
+            <p className="font-medium">{errorMsg}</p>
+          </>
+        ) : null}
+      </div>
       <div
-        className={`relative size-full bg-white rounded-lg border-2 border-gray-600 border-dashed text-gray-950 flex justify-center items-center cursor-pointer ${previewImgDataURL ? "opacity-100" : "opacity-70 md:hover:opacity-100"}`}
+        className={`relative flex-1 size-full bg-white rounded-lg border-2 border-gray-600 border-dashed text-gray-950 flex justify-center items-center cursor-pointer ${previewImgDataURL ? "opacity-100" : "opacity-70 md:hover:opacity-100"}`}
         {...getRootProps()}
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps()} disabled={status === "pending"} />
         <div>
           <p className="font-semibold">Drop image</p>
           <p className="text-sm">or click to select</p>
@@ -88,16 +112,60 @@ export default function ImageUploader({
             />
           </div>
         ) : null}
+        {status === "pending" ? (
+          <div className="absolute inset-0 w-full h-full bg-black/15 flex justify-center items-center">
+            <div className="relative size-10">
+              <Spinner />
+            </div>
+          </div>
+        ) : null}
       </div>
-      <Actions
-        className="mt-2"
-        isReadyToUpload={!!previewImgDataURL && status === "ready"}
-        onReset={reset}
-        onCancel={onCancel}
-        onSubmit={
-          onSubmit ? () => onSubmit(droppedFile || undefined) : undefined
-        }
-      />
+      <div className="flex-none h-12 flex flex-row justify-between gap-4">
+        <div className="relative self-center flex-1">
+          {droppedFile ? (
+            <div className="bg-gray-200/80 rounded-md">
+              <input
+                type="text"
+                className="w-full px-2 py-1 text-sm font-medium"
+                placeholder="Enter filename"
+                disabled={status === "pending"}
+                onChange={(e) => {
+                  setFileName(e.target.value);
+                }}
+                value={filename}
+              ></input>
+            </div>
+          ) : null}
+        </div>
+        <Actions
+          className="flex-1"
+          isReadyToUpload={!!previewImgDataURL && status === "ready"}
+          disabled={status === "pending"}
+          onReset={reset}
+          onCancel={onCancel}
+          onSubmit={
+            onSubmit
+              ? async () => {
+                  if (status === "pending") {
+                    return;
+                  }
+
+                  if (droppedFile) {
+                    try {
+                      setStatus("pending");
+                      await onSubmit({ file: droppedFile, filename });
+                      setStatus("success");
+                      onSuccess?.();
+                    } catch (err) {
+                      setErrorMsg("An error has occurred");
+                      setStatus("error");
+                    }
+                  }
+                }
+              : undefined
+          }
+        />
+      </div>
     </div>
   );
 }

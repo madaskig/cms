@@ -4,8 +4,6 @@ import "server-only";
 
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { makeS3Bucket } from "./makeS3Client";
-import { createBucket } from "./createBucket";
-import { Readable } from "node:stream";
 
 export default async function getObject({
   bucketName,

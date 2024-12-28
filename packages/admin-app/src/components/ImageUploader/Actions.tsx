@@ -11,16 +11,18 @@ export default function Actions({
   onReset,
   onSubmit,
   isReadyToUpload,
+  disabled,
 }: {
   className?: string;
   onCancel?: () => void;
   onReset?: () => void;
   onSubmit?: () => void;
   isReadyToUpload?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <div
-      className={`relative w-full flex flex-row justify-end items-center gap-1 ${className}`}
+      className={`relative w-full flex flex-row justify-end items-center gap-1 ${className} ${disabled ? "opacity-80" : ""}`}
     >
       {onCancel ? (
         <Button
@@ -34,7 +36,7 @@ export default function Actions({
           className="bg-gray-500 text-white"
           icon={<RefreshIcon />}
           onClick={onReset}
-          disabled={!isReadyToUpload}
+          disabled={disabled || !isReadyToUpload}
         />
       ) : null}
       {onSubmit ? (
@@ -42,7 +44,7 @@ export default function Actions({
           className="bg-green-500 text-white"
           icon={<UploadIcon />}
           onClick={onSubmit}
-          disabled={!isReadyToUpload}
+          disabled={disabled || !isReadyToUpload}
         />
       ) : null}
     </div>
