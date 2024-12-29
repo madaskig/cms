@@ -13,7 +13,7 @@ export async function uploadImage({
 
   const queryStr = queryParams.toString();
 
-  return fetch(`/images${queryStr ? `?${queryStr}` : ""}`, {
+  return fetch(`/api/images${queryStr ? `?${queryStr}` : ""}`, {
     method: "POST",
     body: file,
     headers: {

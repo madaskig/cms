@@ -7,6 +7,7 @@ import getFileAsDataUrl from "~/helpers/utils/getFileAsDataUrl";
 import Actions from "./Actions";
 import ExclamationIcon from "@icons/Exclamation";
 import Spinner from "@components/Spinner";
+import LabeledInput from "~/ui/components/Input/LabeledInput";
 
 export default function ImageUploader({
   onCancel,
@@ -119,6 +120,9 @@ export default function ImageUploader({
             </div>
           </div>
         ) : null}
+      </div>
+      <div className="flex-none py-4 max-w-[300px]">
+        <LabeledInput label="name" />
       </div>
       <div className="flex-none h-12 flex flex-row justify-between gap-4">
         <div className="relative self-center flex-1">

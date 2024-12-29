@@ -14,10 +14,10 @@ export type Props = {
 
 const sizeStyle: Record<UI.Size, string> = {
   xs: "text-xs px-1 font-bold",
-  sm: "text-xs px-1 font-bold",
-  md: "text-sm px-1 font-bold",
-  lg: "text-base px-1 font-bold",
-  xl: "text-lg px-1 font-bold",
+  sm: "text-sm px-1 font-bold",
+  md: "text-base px-1 font-bold",
+  lg: "text-lg px-1 font-bold",
+  xl: "text-xl px-1 font-bold",
 };
 
 const Wrapper = ({ as, ...props }: { as: Props["as"] }) => {

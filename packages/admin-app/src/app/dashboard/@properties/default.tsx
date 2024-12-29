@@ -22,7 +22,7 @@ function getPanelBody(propertyGroup: PropertyGroup) {
 
 const getPanelHeader = (group: PropertyGroup) => (
   <Heading
-    size="md"
+    size="sm"
     as="h3"
     className="w-full text-left text-neutral uppercase"
   >

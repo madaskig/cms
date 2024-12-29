@@ -39,9 +39,25 @@ export type MIMEType =
   | "image/svg+xml"
   | "image/tiff";
 
+export type S3Image = {
+  Key: string;
+  LastModified: Date;
+  ETag: string;
+  Size: number;
+  StorageClass: string;
+};
+
+export type Image = {
+  id: string | number;
+  src: string;
+  name: string;
+  size?: number;
+};
+
 export namespace UI {
   export type Size = "xs" | "sm" | "md" | "lg" | "xl";
   export type Direction = "horizontal" | "vertical";
+  export type AspectRatio = "square" | "landscape" | "portrait";
 
   export enum Color {
     neutral = "neutral",

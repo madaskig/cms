@@ -20,6 +20,19 @@ export default {
         warning: colors.orange[500],
         error: colors.red[500],
       } satisfies Record<UI.Color, string>,
+      aspectRatio: {
+        portrait: "3/5",
+        landscape: "16/10",
+      } satisfies Omit<Record<UI.AspectRatio, string>, "square">,
+      animation: {
+        fadein: "fadein 0.3s linear",
+      },
+      keyframes: {
+        fadein: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
     },
   },
   plugins: [],

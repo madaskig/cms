@@ -10,7 +10,7 @@ function TagsGroupEditor({ tagsGroup }: { tagsGroup: TagsGroup }) {
     <Panel
       header={
         <Heading
-          size="md"
+          size="sm"
           as="h3"
           className="w-full text-center shadow-gray-200/70 text-slate-700"
         >
