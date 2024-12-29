@@ -1,9 +1,6 @@
 "use client";
 
-import Button from "../Button";
-import CrossIcon from "../icons/Cross";
-import RefreshIcon from "../icons/Refresh";
-import UploadIcon from "../icons/Upload";
+import ButtonContextual from "@components/Button/ButtonContextual";
 
 export default function Actions({
   className,
@@ -25,24 +22,18 @@ export default function Actions({
       className={`relative w-full flex flex-row justify-end items-center gap-1 ${className} ${disabled ? "opacity-80" : ""}`}
     >
       {onCancel ? (
-        <Button
-          className="bg-red-500 text-white"
-          icon={<CrossIcon />}
-          onClick={onCancel}
-        />
+        <ButtonContextual context="cancel" onClick={onCancel} />
       ) : null}
       {onReset ? (
-        <Button
-          className="bg-gray-500 text-white"
-          icon={<RefreshIcon />}
+        <ButtonContextual
+          context="refresh"
           onClick={onReset}
           disabled={disabled || !isReadyToUpload}
         />
       ) : null}
       {onSubmit ? (
-        <Button
-          className="bg-green-500 text-white"
-          icon={<UploadIcon />}
+        <ButtonContextual
+          context="upload"
           onClick={onSubmit}
           disabled={disabled || !isReadyToUpload}
         />

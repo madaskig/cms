@@ -1,6 +1,6 @@
 "use client";
 
-import ImageUploader from "~/components/ImageUploader";
+import ImageUploader from "@features/ImageUploader";
 import { useRouter } from "next/navigation";
 import upload from "~/helpers/utils/s3/upload";
 import { uploadImage } from "~/actions/client/uploadImage";

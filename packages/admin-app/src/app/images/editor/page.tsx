@@ -1,4 +1,4 @@
-import ImageUploader from "~/components/ImageUploader";
+import ImageUploader from "~/ui/features/ImageUploader";
 
 export default function Page() {
   return (

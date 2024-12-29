@@ -1,9 +1,9 @@
-import Button from "~/components/Button";
-import PlusIcon from "~/components/icons/Plus";
 import { Property } from "~/types";
 import ImagePreview from "./ImagePreview";
 import ImagePlaceholder from "./ImagePlaceholder";
 import Link from "next/link";
+import ButtonContextual from "@components/Button/ButtonContextual";
+import Stack from "@components/Stack";
 
 export default function Images({ list }: { list: Property[] }) {
   const previews = list.slice(0, 2);
@@ -16,34 +16,26 @@ export default function Images({ list }: { list: Property[] }) {
   }
 
   return (
-    <div>
-      <ul className="grid grid-cols-2 gap-2">
+    <Stack>
+      <Stack direction="horizontal" className="flex-nowrap">
         {previews.map((preview) => {
           return (
-            <li key={preview.key} className="relative col-span-1">
+            <div key={preview.key} className="relative flex-1">
               <ImagePreview src={preview.value!} name={preview.label} />
-            </li>
+            </div>
           );
         })}
         {placeholders}
-      </ul>
-      <div className="flex flex-row items-center justify-end gap-1 mt-2">
-        <Button
-          className="bg-gray-500/80 text-white"
+      </Stack>
+      <Stack direction="horizontal" spacing="sm" className="justify-end">
+        <ButtonContextual
+          context="info-secondary"
           label={`View all (${list.length})`}
         />
         <Link href={"/images/editor"}>
-          <Button
-            className="bg-gray-600 text-white flex-row-reverse"
-            label="Add"
-            icon={
-              <div className="relative size-full p-0.5">
-                <PlusIcon />
-              </div>
-            }
-          />
+          <ButtonContextual context="add-cta" label="Add" />
         </Link>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 }

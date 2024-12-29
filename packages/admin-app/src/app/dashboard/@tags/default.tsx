@@ -1,29 +1,37 @@
-import AddButton from "~/components/AddButton";
+import ButtonContextual from "@components/Button/ButtonContextual";
+import Heading from "@components/Heading";
+import Panel from "@components/Panel";
+import LabelPill from "@components/Pill/LabelPill";
+import Stack from "@components/Stack";
 import { type TagsGroup } from "~/types";
 
 function TagsGroupEditor({ tagsGroup }: { tagsGroup: TagsGroup }) {
   return (
-    <div className="relative w-full flex flex-col shadow-lg shadow-gray-200/70 rounded-lg">
-      <h3 className="w-full px-2 py-1 shadow-gray-200/70 rounded-lg text-center text-sm font-bold text-slate-700">
-        {tagsGroup.label}
-      </h3>
-      <ul className="relative w-full flex flex-col gap-2 p-2">
+    <Panel
+      header={
+        <Heading
+          size="md"
+          as="h3"
+          className="w-full text-center shadow-gray-200/70 text-slate-700"
+        >
+          {tagsGroup.label}
+        </Heading>
+      }
+    >
+      <Stack>
         {tagsGroup.tags.map((tag) => {
           return (
-            <li
+            <LabelPill
               key={tag.id}
-              className="w-full rounded-md text-center bg-gray-100 p-1 text-xs font-semibold"
-            >
-              {tag.label}
-            </li>
+              id={tag.id}
+              label={tag.label}
+              className="bg-gray-100 "
+            />
           );
         })}
-        <AddButton variant="small" />
-        {/* <button className="w-full rounded-md text-center p-1 text-sm text-gray-800 font-bold bg-gray-200">
-          +
-        </button> */}
-      </ul>
-    </div>
+        <ButtonContextual context="add" className="flex justify-center" />
+      </Stack>
+    </Panel>
   );
 }
 
@@ -54,15 +62,10 @@ export default function TagsEditor() {
   ];
 
   return (
-    <ul className="relative w-full h-full flex flex-col justify-end gap-4">
+    <Stack spacing="lg" className="h-full justify-end">
       {tagGroups.map((group) => {
-        return (
-          <li key={group.id}>
-            <TagsGroupEditor tagsGroup={group} />
-          </li>
-        );
+        return <TagsGroupEditor key={group.id} tagsGroup={group} />;
       })}
-      {/* <button></button> */}
-    </ul>
+    </Stack>
   );
 }

@@ -5,8 +5,8 @@ import { useDropzone } from "react-dropzone";
 import validateImage from "~/helpers/utils/validateImage";
 import getFileAsDataUrl from "~/helpers/utils/getFileAsDataUrl";
 import Actions from "./Actions";
-import ExclamationIcon from "../icons/Exclamation";
-import Spinner from "../Spinner";
+import ExclamationIcon from "@icons/Exclamation";
+import Spinner from "@components/Spinner";
 
 export default function ImageUploader({
   onCancel,

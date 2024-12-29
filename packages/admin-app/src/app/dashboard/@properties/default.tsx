@@ -1,12 +1,11 @@
 import { PropertyType, type PropertyGroup } from "~/types";
 import KVEditor from "./_kv";
 import Images from "./_images";
+import Heading from "@components/Heading";
+import Stack from "@components/Stack";
+import Panel from "@components/Panel";
 
-function PropertyGroupList({
-  propertyGroup,
-}: {
-  propertyGroup: PropertyGroup;
-}) {
+function getPanelBody(propertyGroup: PropertyGroup) {
   switch (propertyGroup.type) {
     case PropertyType.numeric:
     case PropertyType.text:
@@ -21,22 +20,15 @@ function PropertyGroupList({
   }
 }
 
-function PropertyGroupEditor({
-  propertyGroup,
-}: {
-  propertyGroup: PropertyGroup;
-}) {
-  return (
-    <div className="relative flex flex-col gap-2">
-      <h3 className="w-full text-left text-xs px-1 uppercase font-bold">
-        {propertyGroup.label}
-      </h3>
-      <div>
-        <PropertyGroupList propertyGroup={propertyGroup} />
-      </div>
-    </div>
-  );
-}
+const getPanelHeader = (group: PropertyGroup) => (
+  <Heading
+    size="md"
+    as="h3"
+    className="w-full text-left text-neutral uppercase"
+  >
+    {group.label}
+  </Heading>
+);
 
 export default function PropertiesEditor() {
   const propertyGroups: PropertyGroup[] = [
@@ -99,17 +91,15 @@ export default function PropertiesEditor() {
   ];
 
   return (
-    <ul className="relative w-full h-full flex flex-col items-center gap-6">
+    <Stack spacing="xl">
       {propertyGroups.map((group) => {
-        return (
-          <li
-            key={group.id}
-            className="relative w-full p-2 rounded-lg bg-white shadow-lg shadow-gray-200"
-          >
-            <PropertyGroupEditor propertyGroup={group} />
-          </li>
-        );
+        const panelBody = getPanelBody(group);
+        return panelBody ? (
+          <Panel key={group.id} header={getPanelHeader(group)}>
+            {panelBody}
+          </Panel>
+        ) : null;
       })}
-    </ul>
+    </Stack>
   );
 }
