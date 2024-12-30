@@ -24,7 +24,7 @@ const getPanelHeader = (group: PropertyGroup) => (
   <Heading
     size="sm"
     as="h3"
-    className="w-full text-left text-neutral uppercase"
+    className="w-full text-left text-neutral uppercase p-1"
   >
     {group.label}
   </Heading>

@@ -10,7 +10,13 @@
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
     "strict": true /* Enable all strict type-checking options. */,
     "noEmit": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "types": [
+      "@cloudflare/workers-types"
+    ],
+    "paths": {
+      "~/schemas": ["./schemas/index.ts"],
+    }
   },
   "include": ["."],
   "exclude": ["node_modules", "**/*.spec.ts"]

@@ -1,8 +1,8 @@
-import TextEditor from "@components/TextEditor";
 import Gallery from "@components/Gallery";
-import ImageSelector from "~/ui/features/ImageSelector";
 import { Image } from "~/types";
 import getAllImages from "~/helpers/utils/s3/getAllImages";
+import CollectionTile from "@components/Tile/CollectionTile";
+import AddTile from "@components/Tile/AddTile";
 
 const IMAGES = new Array(9).fill(null).map((_, i) => {
   return {
@@ -18,10 +18,30 @@ export default async function Page() {
   const images = await getAllImages({ bucketName: "assets" });
 
   return (
-    <section className="relative bg-white rounded-lg shadow-lg shadow-gray-300 overflow-hidden size-full p-4">
-      {/* <TextEditor /> */}
-
-      <ImageSelector images={images} />
-    </section>
+    <Gallery className="px-[4vw]" title="Collections" asGrid>
+      <div className="col-span-2 aspect-square pt-2">
+        <CollectionTile
+          className="flex-none w-[80%]"
+          id="1"
+          slug="1"
+          name="Posts"
+          count={11}
+        />
+      </div>
+      <div className="col-span-2 aspect-square pt-2">
+        <CollectionTile
+          className="flex-none w-[80%]"
+          id="1"
+          slug="1"
+          name="Teams"
+          count={4}
+        />
+      </div>
+      <div className="col-span-2 aspect-square pt-2">
+        <button className="relative flex-none w-[80%]">
+          <AddTile />
+        </button>
+      </div>
+    </Gallery>
   );
 }

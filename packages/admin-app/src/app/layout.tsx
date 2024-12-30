@@ -1,4 +1,7 @@
+import Header from "@features/Header";
 import "./globals.css";
+import { ModalProvider } from "~/contexts/modal";
+import Modal from "@features/Modal";
 
 export const runtime = "edge";
 
@@ -10,10 +13,14 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-white text-slate-900">
-      <body>
-        <main className="relative w-[100vw] min-h-[100vh]">{children}</main>
-      </body>
-    </html>
+    <ModalProvider>
+      <html lang="en" className="bg-white text-slate-900">
+        <body className="relative w-[100vw]">
+          <Header className="fixed top-0 left-0 right-0" />
+          <div className="relative w-full h-[100vh] pt-header">{children}</div>
+          {/* <Modal /> */}
+        </body>
+      </html>
+    </ModalProvider>
   );
 }

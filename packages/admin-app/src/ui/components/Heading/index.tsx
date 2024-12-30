@@ -13,11 +13,11 @@ export type Props = {
 };
 
 const sizeStyle: Record<UI.Size, string> = {
-  xs: "text-xs px-1 font-bold",
-  sm: "text-sm px-1 font-bold",
-  md: "text-base px-1 font-bold",
-  lg: "text-lg px-1 font-bold",
-  xl: "text-xl px-1 font-bold",
+  xs: "text-xs font-bold",
+  sm: "text-sm font-bold",
+  md: "text-base font-bold",
+  lg: "text-lg font-bold",
+  xl: "text-xl font-bold",
 };
 
 const Wrapper = ({ as, ...props }: { as: Props["as"] }) => {
@@ -48,6 +48,6 @@ export default function Heading({
   DetailedHTMLProps<HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>) {
   return cloneElement(<Wrapper as={as} />, {
     ...props,
-    className: `${sizeStyle[size]}${className ? ` ${className}` : ""}`,
+    className: `leading-none ${sizeStyle[size]}${className ? ` ${className}` : ""}`,
   });
 }

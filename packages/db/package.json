@@ -5,7 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "generate-schemas": "tsx ./scripts/generateSchemas.ts"
+    "generate-schemas": "drizzle-kit generate",
+    "wrangler": "wrangler",
+    "api:dev": "wrangler dev api/index.ts",
+    "api:dev:local": "npm run api:dev -- --persist-to=./db-tmp",
+    "apply:local": "wrangler d1 migrations apply local-db --local --persist-to=./db-tmp",
+    "apply:preview": "env-cmd wrangler d1 migrations apply test-db --remote --preview",
+    "apply:production": "env-cmd wrangler d1 migrations apply test-db --remote"
   },
   "keywords": [],
   "author": "",
@@ -13,10 +19,11 @@
   "dependencies": {
     "better-sqlite3": "11.2.0",
     "drizzle-kit": "0.24.0",
-    "drizzle-orm": "0.33.0"
+    "drizzle-orm": "0.33.0",
+    "hono": "4.6.15"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20240821.1",
+    "@cloudflare/workers-types": "4.20241224.0",
     "@types/lodash.sortedindexby": "4.6.9",
     "@typescript-eslint/eslint-plugin": "8.2.0",
     "@typescript-eslint/parser": "8.2.0",
@@ -25,6 +32,6 @@
     "prettier": "3.3.3",
     "tsx": "4.17.0",
     "typescript": "5.5.4",
-    "wrangler": "3.72.1"
+    "wrangler": "3.99.0"
   }
 }

@@ -16,6 +16,10 @@
   form {
     all: unset;
   }
+
+  :root {
+    --header-height: 90px;
+  }
 }
 
 

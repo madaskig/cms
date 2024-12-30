@@ -33,6 +33,9 @@ export default {
           "100%": { opacity: "1" },
         },
       },
+      spacing: {
+        header: "var(--header-height)",
+      },
     },
   },
   plugins: [],

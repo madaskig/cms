@@ -1,0 +1,12 @@
+{
+    "name": "cms-db-api-dev",
+    "main": "api/index.ts",
+    "compatibility_date": "2024-12-18",
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "local-db",
+            "database_id": "local-db"
+        }
+    ]
+}
