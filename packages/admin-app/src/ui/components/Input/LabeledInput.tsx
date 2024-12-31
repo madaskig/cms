@@ -1,6 +1,6 @@
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 
-type Variant = "default" | "reversed";
+export type Variant = "default" | "reversed";
 
 type Props = {
   label?: string;
@@ -29,7 +29,7 @@ export default function LabeledInput({
       {label ? (
         <label
           htmlFor={inputProps.id}
-          className="block mb-2 w-full text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis"
+          className="block mb-1 w-full text-xs font-semibold whitespace-nowrap overflow-hidden text-ellipsis"
         >
           {label}
         </label>

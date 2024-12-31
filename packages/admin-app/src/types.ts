@@ -54,6 +54,10 @@ export type Image = {
   size?: number;
 };
 
+export type ModalProps = {
+  closeModal: () => void;
+};
+
 export namespace UI {
   export type Size = "xs" | "sm" | "md" | "lg" | "xl";
   export type Direction = "horizontal" | "vertical";

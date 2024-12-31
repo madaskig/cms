@@ -4,6 +4,7 @@ import ImagePlaceholder from "./ImagePlaceholder";
 import Link from "next/link";
 import ButtonContextual from "@components/Button/ButtonContextual";
 import Stack from "@components/Stack";
+import { ModalLauncher } from "~/contexts/modal";
 
 export default function Images({ list }: { list: Property[] }) {
   const previews = list.slice(0, 2);
@@ -32,9 +33,15 @@ export default function Images({ list }: { list: Property[] }) {
           context="info-secondary"
           label={`View all (${list.length})`}
         />
-        <Link href={"/images/editor"}>
+        <ModalLauncher
+          modal={{
+            type: "image-uploader",
+            // title: "Upload image",
+            variant: "xl",
+          }}
+        >
           <ButtonContextual context="add-cta" label="Add" />
-        </Link>
+        </ModalLauncher>
       </Stack>
     </Stack>
   );
