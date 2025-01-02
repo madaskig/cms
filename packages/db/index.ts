@@ -1,1 +1,2 @@
-export * from "./getOrm.ts";
+export { default as getOrm } from "./getOrm.ts";
+export * from "./ops/index.ts";

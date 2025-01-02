@@ -33,7 +33,7 @@ export default function KVEditor({ list }: { list: Property[] }) {
           })}
         </Stack>
         <div className="relative self-stretch" style={displacementStyles}>
-          <Stack direction="horizontal">
+          <Stack direction="horizontal" className="justify-end">
             <ButtonContextual
               context="add"
               className={`w-full flex justify-center ${isPopupDisplayed ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto transition-opacity duration-500 delay-100"}`}

@@ -22,11 +22,11 @@ const activeStyle = {
 export default function Header({ className }: Props) {
   return (
     <nav
-      className={`h-header py-4 px-[2vw] flex flex-row justify-center items-center ${className || ""}`}
+      className={`h-header py-4 px-[2vw] flex flex-row justify-center items-center ${className || ""} pointer-events-none`}
     >
       <Stack
         direction="horizontal"
-        className="p-2 bg-neutral-secondary rounded-full shadow-xl shadow-gray-300/60 items-center justify-center"
+        className="p-1 bg-neutral-secondary rounded-full shadow-xl shadow-gray-300/60 items-center justify-center pointer-events-auto"
       >
         {MAIN_TABS.map((tab) => {
           return (

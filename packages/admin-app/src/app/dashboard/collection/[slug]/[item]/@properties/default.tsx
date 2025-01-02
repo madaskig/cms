@@ -4,6 +4,9 @@ import Images from "./_images";
 import Heading from "@components/Heading";
 import Stack from "@components/Stack";
 import Panel from "@components/Panel";
+import { TitleEditor } from "./_title";
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import { getItem } from "@madaskig/cms-db";
 
 function getPanelBody(propertyGroup: PropertyGroup) {
   switch (propertyGroup.type) {
@@ -20,17 +23,40 @@ function getPanelBody(propertyGroup: PropertyGroup) {
   }
 }
 
-const getPanelHeader = (group: PropertyGroup) => (
+const PanelHeader = ({ label }: { label: string }) => (
   <Heading
     size="sm"
     as="h3"
     className="w-full text-left text-neutral uppercase p-1"
   >
-    {group.label}
+    {label}
   </Heading>
 );
 
-export default function PropertiesEditor() {
+export default async function PropertiesEditor({
+  params,
+}: {
+  params: Promise<{ slug: string; item: string }>;
+}) {
+  const { slug: collectionSlug, item: slug } = await params;
+
+  console.log("properties !!! ", {
+    collectionSlug,
+    slug,
+  });
+
+  const DB = getRequestContext().env.DB;
+  const { item, collection } = await getItem({ DB, slug, collectionSlug });
+
+  console.log("PROPERTIES", {
+    item,
+    collection,
+  });
+
+  if (!item || !collection) {
+    return null;
+  }
+
   const propertyGroups: PropertyGroup[] = [
     {
       id: "group1",
@@ -42,32 +68,7 @@ export default function PropertiesEditor() {
       id: "group2",
       label: "Images",
       type: PropertyType.image,
-      properties: [
-        // {
-        //   key: "img1",
-        //   value: "https://picsum.photos/id/28/800/450",
-        //   type: PropertyType.image,
-        //   label: "Image 1",
-        // },
-        // {
-        //   key: "img2",
-        //   value: "https://picsum.photos/id/18/800/450",
-        //   type: PropertyType.image,
-        //   label: "Image 2",
-        // },
-        // {
-        //   key: "img3",
-        //   value: "https://picsum.photos/id/29/800/450",
-        //   type: PropertyType.image,
-        //   label: "Image 3",
-        // },
-        // {
-        //   key: "img4",
-        //   value: "https://picsum.photos/id/49/800/450",
-        //   type: PropertyType.image,
-        //   label: "Image 4",
-        // },
-      ],
+      properties: [],
     },
     {
       id: "group3",
@@ -92,10 +93,13 @@ export default function PropertiesEditor() {
 
   return (
     <Stack spacing="xl">
+      <Panel header={<PanelHeader label="Title" />}>
+        <TitleEditor item={item} collection={collection} />
+      </Panel>
       {propertyGroups.map((group) => {
         const panelBody = getPanelBody(group);
         return panelBody ? (
-          <Panel key={group.id} header={getPanelHeader(group)}>
+          <Panel key={group.id} header={<PanelHeader label={group.label} />}>
             {panelBody}
           </Panel>
         ) : null;

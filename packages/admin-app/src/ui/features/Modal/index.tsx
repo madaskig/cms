@@ -5,8 +5,9 @@ import { useMemo } from "react";
 import { useModal } from "~/contexts/modal";
 import { Overlay } from "~/ui/components/Overlay";
 import Stack from "~/ui/components/Stack";
-import { ModalInputForm } from "./ModalInputForm";
+import { ModalGenericInputForm } from "./ModalGenericInputForm";
 import { ModalImageUploader } from "./ModalImageUploader";
+import { ModalNewCollection } from "./ModalNewCollection";
 
 export default function Modal() {
   const { modal, setModal } = useModal();
@@ -20,9 +21,11 @@ export default function Modal() {
 
     switch (modal?.type) {
       case "input-form":
-        return <ModalInputForm {...modal.data} {...commonProps} />;
+        return <ModalGenericInputForm {...modal.data} {...commonProps} />;
       case "image-uploader":
         return <ModalImageUploader {...commonProps} />;
+      case "new-collection":
+        return <ModalNewCollection {...commonProps} />;
       default:
         return null;
     }
@@ -35,7 +38,7 @@ export default function Modal() {
   return (
     <Overlay>
       <Stack className="size-full justify-center items-center">
-        <ModalUI title={modal.title} variant={modal.variant}>
+        <ModalUI title={modal.title} size={modal.size}>
           {modalContent}
         </ModalUI>
       </Stack>

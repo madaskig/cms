@@ -54,15 +54,17 @@ const getIcon = (context: Context) => {
 export default function ButtonContextual({
   context,
   className,
+  type = "button",
   ...btnProps
 }: {
   context: Context;
 } & Omit<ButtonProps, "color" | "icon">) {
   return (
     <Button
-      {...btnProps}
+      type={type}
       icon={getIcon(context)}
       className={`${colorStyle[context]}${className ? ` ${className}` : ""}`}
+      {...btnProps}
     />
   );
 }

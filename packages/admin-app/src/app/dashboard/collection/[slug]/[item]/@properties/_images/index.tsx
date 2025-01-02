@@ -13,7 +13,11 @@ export default function Images({ list }: { list: Property[] }) {
   let i = 0;
   while (previews.length + placeholders.length < 2) {
     i++;
-    placeholders.push(<ImagePlaceholder key={i} />);
+    placeholders.push(
+      <div className="relative flex-1 aspect-square">
+        <ImagePlaceholder key={i} />
+      </div>,
+    );
   }
 
   return (
@@ -37,7 +41,7 @@ export default function Images({ list }: { list: Property[] }) {
           modal={{
             type: "image-uploader",
             // title: "Upload image",
-            variant: "xl",
+            size: "xl",
           }}
         >
           <ButtonContextual context="add-cta" label="Add" />

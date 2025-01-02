@@ -18,7 +18,11 @@ const nextConfig = {
 };
 
 if (process.env.NODE_ENV === 'development') {
-  await setupDevPlatform();
+  await setupDevPlatform({
+    persist: {
+      path: "../db/db-tmp/v3"
+    }
+  });
 }
 
 export default nextConfig;

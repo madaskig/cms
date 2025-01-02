@@ -21,7 +21,7 @@ export default {
         error: colors.red[500],
       } satisfies Record<UI.Color, string>,
       aspectRatio: {
-        portrait: "3/5",
+        portrait: "3/4",
         landscape: "16/10",
       } satisfies Omit<Record<UI.AspectRatio, string>, "square">,
       animation: {

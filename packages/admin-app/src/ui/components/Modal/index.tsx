@@ -5,11 +5,11 @@ import { UI } from "~/types";
 
 type Props = {
   title?: string;
-  variant?: UI.Size;
+  size?: UI.Size;
   children: ReactNode;
 };
 
-const variantStyle: Record<UI.Size, string> = {
+const sizeStyle: Record<UI.Size, string> = {
   xs: "md:max-w-[320px]",
   sm: "md:max-w-[320px]",
   md: "md:max-w-[460px]",
@@ -17,11 +17,11 @@ const variantStyle: Record<UI.Size, string> = {
   xl: "md:max-w-[720px]",
 };
 
-export function Modal({ title, variant = "md", children }: Props) {
+export function Modal({ title, size = "md", children }: Props) {
   return (
     <Stack
       spacing="lg"
-      className={`w-full max-h-[75vh] p-4 bg-white rounded-md shadow-lg shadow-gray-300 ${variantStyle[variant]}`}
+      className={`w-full max-h-[75vh] p-4 bg-white rounded-md shadow-lg shadow-gray-300 ${sizeStyle[size]}`}
     >
       {title ? (
         <Heading size="lg" as="h2">

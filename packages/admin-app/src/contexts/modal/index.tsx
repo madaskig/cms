@@ -8,22 +8,24 @@ import {
   useContext,
   useState,
 } from "react";
-import { ModalInputFormData } from "@features/Modal/ModalInputForm";
+import { type ModalGenericInputFormData } from "~/ui/features/Modal/ModalGenericInputForm";
 import { UI } from "~/types";
 
-export type ModalType = "input-form" | "image-uploader";
+export type ModalType = "new-collection" | "input-form" | "image-uploader";
 
 type GetModalDataType<T extends ModalType> = T extends "input-form"
-  ? { type: T; data?: ModalInputFormData }
-  : T extends "image-uploader"
-    ? { type: T }
-    : { type: T };
+  ? { type: T; data?: ModalGenericInputFormData }
+  : { type: T };
 
 export type Modal =
   | ({
       title?: string;
-      variant?: UI.Size;
-    } & (GetModalDataType<"input-form"> | GetModalDataType<"image-uploader">))
+      size?: UI.Size;
+    } & (
+      | GetModalDataType<"input-form">
+      | GetModalDataType<"image-uploader">
+      | GetModalDataType<"new-collection">
+    ))
   | null;
 
 export const ModalContext = createContext<{
