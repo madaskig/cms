@@ -34,11 +34,12 @@ export default async function Page({
     >
       {items.map((item) => {
         return (
-          <ItemTile
-            key={item.id}
+          <a
+            href={`/dashboard/collection/${collection.slug}/${item.id}`}
             className="relative col-span-2 w-full"
-            {...item}
-          />
+          >
+            <ItemTile key={item.id} className="size-full" {...item} />
+          </a>
         );
       })}
 

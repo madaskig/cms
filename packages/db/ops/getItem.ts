@@ -6,10 +6,12 @@ import { CollectionsSchema, ItemsSchema } from "../types.ts";
 export async function getItem({
   DB,
   slug,
+  itemId,
   collectionSlug,
 }: {
   DB: D1Database;
-  slug: string;
+  slug?: string;
+  itemId?: number;
   collectionSlug: string;
 }): Promise<{
   item?: ItemsSchema | null;
@@ -19,6 +21,10 @@ export async function getItem({
   const db = getOrm(DB);
 
   try {
+    if (!slug && !itemId) {
+      throw new Error("either slug or itemId must be provided");
+    }
+
     const res = await db
       .select()
       .from(schemas.collections)
@@ -27,7 +33,7 @@ export async function getItem({
         schemas.items,
         and(
           eq(schemas.items.collectionId, schemas.collections.id),
-          eq(schemas.items.slug, slug),
+          itemId ? eq(schemas.items.id, itemId) : eq(schemas.items.slug, slug!),
         ),
       );
 
@@ -44,7 +50,7 @@ export async function getItem({
   } catch (err) {
     console.error(err);
     return {
-      error: "An error has occurred",
+      error: (err as Error).message || "An error has occurred",
     };
   }
 }

@@ -36,17 +36,19 @@ const PanelHeader = ({ label }: { label: string }) => (
 export default async function PropertiesEditor({
   params,
 }: {
-  params: Promise<{ slug: string; item: string }>;
+  params: Promise<{ slug: string; item_id: string }>;
 }) {
-  const { slug: collectionSlug, item: slug } = await params;
+  const { slug: collectionSlug, item_id: itemIdStr } = await params;
+
+  const itemId = Number(itemIdStr);
 
   console.log("properties !!! ", {
     collectionSlug,
-    slug,
+    itemId,
   });
 
   const DB = getRequestContext().env.DB;
-  const { item, collection } = await getItem({ DB, slug, collectionSlug });
+  const { item, collection } = await getItem({ DB, itemId, collectionSlug });
 
   console.log("PROPERTIES", {
     item,
@@ -94,7 +96,7 @@ export default async function PropertiesEditor({
   return (
     <Stack spacing="xl">
       <Panel header={<PanelHeader label="Title" />}>
-        <TitleEditor item={item} collection={collection} />
+        <TitleEditor item={item} />
       </Panel>
       {propertyGroups.map((group) => {
         const panelBody = getPanelBody(group);
