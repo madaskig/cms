@@ -1,62 +1,58 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import NewKVForm from "./NewKVForm";
 import useAnimatedListInsert from "~/helpers/hooks/useAnimatedListInsert";
-import type { Property } from "~/types";
 import ButtonContextual from "@components/Button/ButtonContextual";
 import Stack from "@components/Stack";
 import LabeledInput from "@components/Input/LabeledInput";
+import {
+  ItemsSchema,
+  MetaSchema,
+  MetaSchemaForInsert,
+} from "@madaskig/cms-db/types";
 
-export default function KVEditor({ list }: { list: Property[] }) {
-  const [isPopupDisplayed, setIsPopupDisplayed] = useState(false);
+export default function KVEditor({
+  list,
+  item,
+}: {
+  list: MetaSchema[];
+  item: ItemsSchema;
+}) {
+  const [displayedList, setDisplayedList] = useState(list);
+  const [settledList, setSettledList] = useState(list);
+  const [formKey, setFormKey] = useState(1);
 
-  const insertedElementRef = useRef<HTMLDivElement>(null);
-  const displacedElementRef = useRef<HTMLButtonElement>(null);
-  const removedElementRef = useRef<HTMLButtonElement>(null);
-  const containerElementRef = useRef<HTMLDivElement>(null);
+  const optimisticallyInsertMetaToList = (meta: MetaSchema) => {
+    const currentListFiltered = displayedList.filter((o) => o.key !== meta.key);
 
-  const { displacementStyles, containerStyles } = useAnimatedListInsert({
-    insertedElementRef,
-    // displacedElementRef,
-    removedElementRef,
-    containerElementRef,
-    isInserted: isPopupDisplayed,
-  });
+    setDisplayedList([...currentListFiltered, meta]);
+  };
 
   return (
-    <div style={containerStyles} ref={containerElementRef}>
-      <Stack>
-        <Stack>
-          {list.map((property) => {
-            return <LabeledInput key={property.key} label={property.label} />;
-          })}
-        </Stack>
-        <div className="relative self-stretch" style={displacementStyles}>
-          <Stack direction="horizontal" className="justify-end">
-            <ButtonContextual
-              context="add"
-              className={`w-full flex justify-center ${isPopupDisplayed ? "opacity-0 pointer-events-none" : "opacity-100 pointer-events-auto transition-opacity duration-500 delay-100"}`}
-              size="lg"
-              onClick={() => {
-                setIsPopupDisplayed(true);
-              }}
-              ref={removedElementRef}
+    <Stack className="flex-1 min-h-0">
+      <Stack className="flex-1 min-h-0 overflow-auto">
+        {displayedList.map((property) => {
+          return (
+            <LabeledInput
+              key={property.key}
+              label={property.key}
+              defaultValue={property.value || undefined}
             />
-
-            <div
-              className={`absolute ${isPopupDisplayed ? "opacity-100 pointer-events-auto transition-opacity duration-500 delay-200" : "opacity-0 pointer-events-none"} w-full left-0 right-0 bottom-full`}
-              ref={insertedElementRef}
-            >
-              <NewKVForm
-                onCancel={() => {
-                  setIsPopupDisplayed(false);
-                }}
-              />
-            </div>
-          </Stack>
+          );
+        })}
+        <div>
+          <NewKVForm
+            key={formKey}
+            item={item}
+            onValidate={optimisticallyInsertMetaToList}
+            onCancel={() => setFormKey((x) => (x + 1) % 3)}
+            onSuccess={(meta: MetaSchema) => {
+              console.log("SUCCESS :::: ", meta);
+            }}
+          />
         </div>
       </Stack>
-    </div>
+    </Stack>
   );
 }

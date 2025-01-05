@@ -1,12 +1,11 @@
-import { Property } from "~/types";
 import ImagePreview from "./ImagePreview";
 import ImagePlaceholder from "./ImagePlaceholder";
-import Link from "next/link";
 import ButtonContextual from "@components/Button/ButtonContextual";
 import Stack from "@components/Stack";
 import { ModalLauncher } from "~/contexts/modal";
+import { MetaSchema } from "@madaskig/cms-db/types";
 
-export default function Images({ list }: { list: Property[] }) {
+export default function Images({ list }: { list: MetaSchema[] }) {
   const previews = list.slice(0, 2);
   const placeholders: React.ReactNode[] = [];
 
@@ -14,7 +13,7 @@ export default function Images({ list }: { list: Property[] }) {
   while (previews.length + placeholders.length < 2) {
     i++;
     placeholders.push(
-      <div className="relative flex-1 aspect-square">
+      <div key={i} className="relative flex-1 aspect-square">
         <ImagePlaceholder key={i} />
       </div>,
     );
@@ -26,7 +25,7 @@ export default function Images({ list }: { list: Property[] }) {
         {previews.map((preview) => {
           return (
             <div key={preview.key} className="relative flex-1">
-              <ImagePreview src={preview.value!} name={preview.label} />
+              <ImagePreview src={preview.value!} name={preview.key} />
             </div>
           );
         })}
@@ -40,11 +39,10 @@ export default function Images({ list }: { list: Property[] }) {
         <ModalLauncher
           modal={{
             type: "image-uploader",
-            // title: "Upload image",
             size: "xl",
           }}
         >
-          <ButtonContextual context="add-cta" label="Add" />
+          <ButtonContextual context="add-cta" label="Add" size="lg" />
         </ModalLauncher>
       </Stack>
     </Stack>

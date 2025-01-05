@@ -1,12 +1,12 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import { UI } from "~/types";
 
 const iconSizeStyle: Record<UI.Size, string> = {
   xs: "size-3",
   sm: "size-3.5",
-  md: "size-5",
-  lg: "size-6",
-  xl: "size-7",
+  md: "size-4",
+  lg: "size-5",
+  xl: "size-6",
 };
 
 const labelSizeStyle: Record<UI.Size, string> = {
@@ -18,8 +18,8 @@ const labelSizeStyle: Record<UI.Size, string> = {
 };
 
 export type Props = {
-  icon?: React.ReactNode;
-  label?: string;
+  icon?: ReactNode;
+  label?: string | ReactNode;
   size?: UI.Size;
   className?: string;
 } & DetailedHTMLProps<
@@ -37,7 +37,7 @@ export default function Button({
 }: Props) {
   return (
     <button
-      className={`relative p-1 rounded-md flex ${className} ${disabled ? "opacity-50" : ""}`}
+      className={`relative p-1 rounded-md flex justify-center items-center ${className} ${disabled ? "opacity-50" : ""}`}
       disabled={disabled}
       {...buttonProps}
     >
@@ -45,7 +45,11 @@ export default function Button({
         <div className={`relative ${iconSizeStyle[size]}`}>{icon}</div>
       ) : null}
       {label ? (
-        <span className={`px-1 ${labelSizeStyle[size]}`}>{label}</span>
+        <div
+          className={`h-full flex justify-center items-center px-1 ${labelSizeStyle[size]}`}
+        >
+          {label}
+        </div>
       ) : null}
     </button>
   );

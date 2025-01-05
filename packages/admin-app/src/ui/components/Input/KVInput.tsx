@@ -33,7 +33,7 @@ export default function KVInput({ kProps, vProps }: Props) {
         spacing="sm"
         className="items-center bg-gray-200 px-1 py-1"
       >
-        <div className="flex ">
+        <div className="flex">
           <span className="text-[0.65rem] uppercase font-bold opacity-70">
             value:{" "}
           </span>

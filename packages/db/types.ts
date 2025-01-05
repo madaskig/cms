@@ -17,3 +17,9 @@ export type TagsGroupsSchemaForInsert = typeof schemas.tagsGroups.$inferInsert;
 export type ItemsToTagsSchemaForInsert =
   typeof schemas.itemsToTags.$inferInsert;
 export type AssetsSchemaForInsert = typeof schemas.assets.$inferInsert;
+
+export const MetaType = {
+  image: "image",
+  text: "text",
+  number: "number",
+} as const;

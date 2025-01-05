@@ -1,11 +1,21 @@
+import { getRequestContext } from "@cloudflare/next-on-pages";
 import ButtonContextual from "@components/Button/ButtonContextual";
 import Heading from "@components/Heading";
 import Panel from "@components/Panel";
 import LabelPill from "@components/Pill/LabelPill";
 import Stack from "@components/Stack";
-import { type TagsGroup } from "~/types";
+import { getItemTags } from "@madaskig/cms-db";
+import { TagsGroupsSchema, TagsSchema } from "@madaskig/cms-db/types";
+import { ModalLauncher } from "~/contexts/modal";
+import LabeledInput from "~/ui/components/Input/LabeledInput";
 
-function TagsGroupEditor({ tagsGroup }: { tagsGroup: TagsGroup }) {
+function TagsGroupEditor({
+  group,
+  tags,
+}: {
+  group: TagsGroupsSchema;
+  tags: TagsSchema[];
+}) {
   return (
     <Panel
       header={
@@ -14,58 +24,81 @@ function TagsGroupEditor({ tagsGroup }: { tagsGroup: TagsGroup }) {
           as="h3"
           className="w-full text-center shadow-gray-200/70 text-slate-700"
         >
-          {tagsGroup.label}
+          {group.name}
         </Heading>
       }
     >
       <Stack>
-        {tagsGroup.tags.map((tag) => {
+        {tags.map((tag) => {
           return (
             <LabelPill
-              key={tag.id}
-              id={tag.id}
-              label={tag.label}
+              key={tag.slug}
+              id={tag.slug}
+              label={tag.name}
               className="bg-gray-100 "
             />
           );
         })}
-        <ButtonContextual context="add" className="flex justify-center" />
+        <Stack direction="horizontal" spacing="sm" className="items-center">
+          <div className="flex-1 min-w-0 relative">
+            <LabeledInput variant="reversed" />
+          </div>
+          <div className="flex-none h-full p-0.5 aspect-square">
+            <ButtonContextual
+              context="add-cta"
+              size="md"
+              type="submit"
+              className="flex-none size-full"
+            />
+          </div>
+        </Stack>
       </Stack>
     </Panel>
   );
 }
 
-export default function TagsEditor() {
-  const tagGroups: TagsGroup[] = [
-    {
-      id: "group1",
-      label: "Uncategorized",
-      tags: [
-        { id: "premium", label: "Premium" },
-        { id: "best", label: "The Very Best" },
-        { id: "promotion", label: "Promotion" },
-      ],
-    },
-    {
-      id: "group2",
-      label: "Genre",
-      tags: [
-        { id: "drama", label: "Drama" },
-        { id: "comedy", label: "Comedy" },
-      ],
-    },
-    {
-      id: "group3",
-      label: "Language",
-      tags: [],
-    },
-  ];
+export default async function TagsEditor({
+  params,
+}: {
+  params: Promise<{ slug: string; item_id: string }>;
+}) {
+  const { item_id: itemIdStr } = await params;
+
+  const itemId = Number(itemIdStr);
+
+  const DB = getRequestContext().env.DB;
+
+  const { tagGroups } = await getItemTags({
+    DB,
+    itemId,
+  });
 
   return (
     <Stack spacing="lg" className="h-full justify-end">
-      {tagGroups.map((group) => {
-        return <TagsGroupEditor key={group.id} tagsGroup={group} />;
-      })}
+      <Stack spacing="lg" className="h-full justify-end">
+        {Object.values(tagGroups || {}).map(({ group, tags }) => {
+          return <TagsGroupEditor key={group.id} group={group} tags={tags} />;
+        })}
+      </Stack>
+
+      <ModalLauncher
+        className="w-full flex flex-col"
+        modal={{
+          type: "new-tag-group",
+          title: "Add Tag Group",
+          size: "xs",
+          data: {
+            itemId,
+          },
+        }}
+      >
+        <ButtonContextual
+          context="add-cta"
+          className="flex justify-center"
+          label={<span className="font-bold">Add Tag</span>}
+          size="lg"
+        />
+      </ModalLauncher>
     </Stack>
   );
 }

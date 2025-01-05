@@ -6,28 +6,14 @@ import Stack from "@components/Stack";
 import Panel from "@components/Panel";
 import { TitleEditor } from "./_title";
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { getItem } from "@madaskig/cms-db";
-
-function getPanelBody(propertyGroup: PropertyGroup) {
-  switch (propertyGroup.type) {
-    case PropertyType.numeric:
-    case PropertyType.text:
-    case PropertyType.structuredText:
-      return null;
-    case PropertyType.image:
-      return <Images list={propertyGroup.properties} />;
-    case PropertyType.kv:
-      return <KVEditor list={propertyGroup.properties} />;
-    default:
-      return null;
-  }
-}
+import { getItem, getItemMeta } from "@madaskig/cms-db";
+import { MetaSchema, MetaType } from "@madaskig/cms-db/types";
 
 const PanelHeader = ({ label }: { label: string }) => (
   <Heading
     size="sm"
     as="h3"
-    className="w-full text-left text-neutral uppercase p-1"
+    className="flex-none w-full text-left text-neutral uppercase p-1"
   >
     {label}
   </Heading>
@@ -42,70 +28,49 @@ export default async function PropertiesEditor({
 
   const itemId = Number(itemIdStr);
 
-  console.log("properties !!! ", {
-    collectionSlug,
-    itemId,
-  });
-
   const DB = getRequestContext().env.DB;
-  const { item, collection } = await getItem({ DB, itemId, collectionSlug });
-
-  console.log("PROPERTIES", {
-    item,
-    collection,
-  });
+  const [{ item, collection }, { meta = [] }] = await Promise.all([
+    getItem({ DB, itemId, collectionSlug }),
+    getItemMeta({
+      DB,
+      itemId,
+    }),
+  ]);
 
   if (!item || !collection) {
     return null;
   }
 
-  const propertyGroups: PropertyGroup[] = [
-    {
-      id: "group1",
-      label: "Text",
-      type: PropertyType.structuredText,
-      properties: [],
+  console.log({
+    meta,
+  });
+
+  const { kv, images } = meta.reduce(
+    (acc, metaObj) => {
+      acc[metaObj.type === MetaType.image ? "images" : "kv"].push(metaObj);
+
+      return acc;
     },
     {
-      id: "group2",
-      label: "Images",
-      type: PropertyType.image,
-      properties: [],
-    },
-    {
-      id: "group3",
-      label: "Properties",
-      type: PropertyType.kv,
-      properties: [
-        {
-          type: PropertyType.kv,
-          key: "popularity",
-          label: "Popularity",
-          value: "83",
-        },
-        {
-          type: PropertyType.kv,
-          key: "externallink",
-          label: "External Link",
-          value: "https://example.com",
-        },
-      ],
-    },
-  ];
+      kv: [],
+      images: [],
+    } as { kv: MetaSchema[]; images: MetaSchema[] },
+  );
 
   return (
-    <Stack spacing="xl">
-      <Panel header={<PanelHeader label="Title" />}>
+    <Stack className="h-full" spacing="xl">
+      <Panel className="flex-none" header={<PanelHeader label="Title" />}>
         <TitleEditor item={item} />
       </Panel>
-      {propertyGroups.map((group) => {
-        const panelBody = getPanelBody(group);
-        return panelBody ? (
-          <Panel key={group.id} header={<PanelHeader label={group.label} />}>
-            {panelBody}
-          </Panel>
-        ) : null;
-      })}
+      <Panel className="flex-none" header={<PanelHeader label="Images" />}>
+        <Images list={images} />
+      </Panel>
+      <Panel
+        className="flex-1 min-h-0"
+        header={<PanelHeader label="Properties" />}
+      >
+        <KVEditor list={kv} item={item} />
+      </Panel>
     </Stack>
   );
 }

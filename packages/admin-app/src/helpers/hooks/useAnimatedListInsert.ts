@@ -24,28 +24,36 @@ export default function useAnimatedListInsert({
     isInsertedRef.current = isInserted;
   }, [isInserted]);
 
+  const recomputeRef = useRef(() => {
+    const insertedElementHeightMeasured =
+      insertedElementRef.current?.offsetHeight || 0;
+
+    const removedElementHeightMeasured =
+      removedElementRef.current?.offsetHeight || 0;
+
+    const containerElementHeightMeasured =
+      containerElementRef.current?.offsetHeight || 0;
+
+    console.log({
+      insertedElementHeightMeasured,
+      removedElementHeightMeasured,
+      containerElementHeightMeasured,
+    });
+
+    setInsertedElementHeight(insertedElementHeightMeasured);
+    setRemovedElementHeight(removedElementHeightMeasured);
+    setContainerElementHeight(
+      containerElementHeightMeasured
+        ? containerElementHeightMeasured +
+            (isInsertedRef.current
+              ? removedElementHeightMeasured - insertedElementHeightMeasured
+              : 0)
+        : 0,
+    );
+  });
+
   useEffect(() => {
-    const handleResize = () => {
-      const insertedElementHeightMeasured =
-        insertedElementRef.current?.offsetHeight || 0;
-
-      const removedElementHeightMeasured =
-        removedElementRef.current?.offsetHeight || 0;
-
-      const containerElementHeightMeasured =
-        containerElementRef.current?.offsetHeight || 0;
-
-      setInsertedElementHeight(insertedElementHeightMeasured);
-      setRemovedElementHeight(removedElementHeightMeasured);
-      setContainerElementHeight(
-        containerElementHeightMeasured
-          ? containerElementHeightMeasured +
-              (isInsertedRef.current
-                ? removedElementHeightMeasured - insertedElementHeightMeasured
-                : 0)
-          : 0,
-      );
-    };
+    const handleResize = recomputeRef.current;
 
     handleResize();
 
@@ -92,5 +100,6 @@ export default function useAnimatedListInsert({
   return {
     displacementStyles,
     containerStyles,
+    recompute: recomputeRef.current,
   };
 }

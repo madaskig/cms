@@ -8,6 +8,7 @@ import Stack from "~/ui/components/Stack";
 import { ModalGenericInputForm } from "./ModalGenericInputForm";
 import { ModalImageUploader } from "./ModalImageUploader";
 import { ModalNewCollection } from "./ModalNewCollection";
+import { ModalNewTagGroup } from "./ModalNewTagGroup";
 
 export default function Modal() {
   const { modal, setModal } = useModal();
@@ -26,6 +27,8 @@ export default function Modal() {
         return <ModalImageUploader {...commonProps} />;
       case "new-collection":
         return <ModalNewCollection {...commonProps} />;
+      case "new-tag-group":
+        return <ModalNewTagGroup {...modal.data} {...commonProps} />;
       default:
         return null;
     }

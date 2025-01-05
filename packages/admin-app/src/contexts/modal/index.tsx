@@ -9,13 +9,20 @@ import {
   useState,
 } from "react";
 import { type ModalGenericInputFormData } from "~/ui/features/Modal/ModalGenericInputForm";
+import { type ModalNewTagGroupData } from "@features/Modal/ModalNewTagGroup";
 import { UI } from "~/types";
 
-export type ModalType = "new-collection" | "input-form" | "image-uploader";
+export type ModalType =
+  | "new-collection"
+  | "input-form"
+  | "image-uploader"
+  | "new-tag-group";
 
 type GetModalDataType<T extends ModalType> = T extends "input-form"
   ? { type: T; data?: ModalGenericInputFormData }
-  : { type: T };
+  : T extends "new-tag-group"
+    ? { type: T; data: ModalNewTagGroupData }
+    : { type: T };
 
 export type Modal =
   | ({
@@ -25,6 +32,7 @@ export type Modal =
       | GetModalDataType<"input-form">
       | GetModalDataType<"image-uploader">
       | GetModalDataType<"new-collection">
+      | GetModalDataType<"new-tag-group">
     ))
   | null;
 
