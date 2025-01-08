@@ -1,5 +1,6 @@
 "use client";
 
+import { TagsGroupsSchema, TagsSchema } from "@madaskig/cms-db/types";
 import { useActionState, useEffect } from "react";
 import { addTagAction } from "~/actions/formActions/addTagAction";
 import { ModalProps } from "~/types";
@@ -8,11 +9,18 @@ import { ModalInputForm } from "~/ui/components/Modal/ModalInputForm";
 
 export type ModalNewTagGroupData = {
   itemId: number;
+  onSuccess?: ({
+    tag,
+    tagGroup,
+  }: {
+    tag: TagsSchema;
+    tagGroup: TagsGroupsSchema;
+  }) => void;
 };
 
 type Props = ModalProps & ModalNewTagGroupData;
 
-export function ModalNewTagGroup({ closeModal, itemId }: Props) {
+export function ModalNewTagGroup({ closeModal, onSuccess, itemId }: Props) {
   const [state, formAction, pending] = useActionState(addTagAction, {
     error: "",
   });
@@ -22,6 +30,13 @@ export function ModalNewTagGroup({ closeModal, itemId }: Props) {
       state,
       pending,
     });
+
+    if (!pending && state.tag && state.tagGroup && !state.error) {
+      onSuccess?.({
+        tag: state.tag,
+        tagGroup: state.tagGroup,
+      });
+    }
   }, [state, pending]);
 
   const indicator: LabeledInputIndicator = pending
@@ -34,6 +49,7 @@ export function ModalNewTagGroup({ closeModal, itemId }: Props) {
 
   return (
     <ModalInputForm
+      dataTestId="modal-new-tag-group"
       inputs={[
         {
           id: "group-name",
