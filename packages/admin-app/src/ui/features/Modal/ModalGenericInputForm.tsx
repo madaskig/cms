@@ -11,5 +11,5 @@ export type ModalGenericInputFormData = ModalInputFormData;
 type Props = ModalGenericInputFormData & ModalProps;
 
 export function ModalGenericInputForm(props: Props) {
-  return <ModalInputForm {...props} />;
+  return <ModalInputForm dataTestId="modal-generic-input-form" {...props} />;
 }

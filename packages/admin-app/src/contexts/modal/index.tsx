@@ -44,8 +44,14 @@ export const ModalContext = createContext<{
   setModal: () => {},
 });
 
-export const ModalProvider = ({ children }: { children: ReactNode }) => {
-  const [modal, setModal] = useState<Modal>(null);
+export const ModalProvider = ({
+  children,
+  initState,
+}: {
+  children: ReactNode;
+  initState?: Modal;
+}) => {
+  const [modal, setModal] = useState<Modal>(initState || null);
 
   return (
     <ModalContext.Provider

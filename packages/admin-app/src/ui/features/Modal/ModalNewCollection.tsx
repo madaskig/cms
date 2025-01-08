@@ -24,6 +24,7 @@ export function ModalNewCollection({ closeModal }: Props) {
 
   return (
     <ModalInputForm
+      dataTestId="modal-new-collection"
       inputs={[
         {
           id: "name",

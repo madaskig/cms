@@ -56,6 +56,7 @@ export type Image = {
 
 export type ModalProps = {
   closeModal: () => void;
+  dataTestId?: string;
 };
 
 export namespace UI {

@@ -26,9 +26,10 @@ export function ModalInputForm({
   error,
   closeModal,
   action,
+  dataTestId,
 }: Props) {
   return (
-    <form action={action}>
+    <form action={action} data-testid={dataTestId}>
       <Stack spacing="lg">
         {inputs.map((o) => {
           return <LabeledInput key={o.id} {...o} />;

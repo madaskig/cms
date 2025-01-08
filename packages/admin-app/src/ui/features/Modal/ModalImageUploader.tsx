@@ -6,7 +6,7 @@ type Props = ModalProps;
 
 export function ModalImageUploader({ closeModal }: Props) {
   return (
-    <div className="relative h-[100vh]">
+    <div className="relative h-[100vh]" data-testid="modal-image-uploader">
       <ImageUploader
         onCancel={closeModal}
         onSuccess={closeModal}
